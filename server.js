@@ -4,7 +4,10 @@ const url = require('url');
 const server = http.createServer();
 server.on('request', (req, res) => {
     const parsedUrl = url.parse(req.url, true);
-    console.log(parsedUrl);
+    if (req.method === 'GET' && parsedUrl.pathname === '/metadata') {
+        const { id } = parsedUrl.query;
+        console.log(id);
+    }
 });
 
 server.listen(8080);
