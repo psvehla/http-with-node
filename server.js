@@ -8,7 +8,7 @@ server.on('request', (req, res) => {
     if (req.method === 'GET' && parsedUrl.pathname === '/metadata') {
         const { id } = parsedUrl.query;
         const metadata = services.fetchImageMetadata(id);
-        console.log(metadata);
+        console.log(req.headers);
     }
 });
 
