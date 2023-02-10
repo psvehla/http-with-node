@@ -12,8 +12,12 @@ server.on('request', (req, res) => {
     };
     const body = [];
     req.on('data', (chunk) => {
-        console.log('this is a chunk \n');
-        console.log(chunk.toString());
+        body.push(chunk);
+    }).on('end', () => {
+        const parsedJSON = JSON.parse(Buffer.concat(body));
+        const userName = parsedJSON[0]['userName'];
+        console.log(userName);
+        services.createUser(userName);
     });
 });
 
