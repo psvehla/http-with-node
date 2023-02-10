@@ -9,7 +9,12 @@ server.on('request', (req, res) => {
         const { id } = parsedUrl.query;
         const metadata = services.fetchImageMetadata(id);
         console.log(req.headers);
-    }
+    };
+    const body = [];
+    req.on('data', (chunk) => {
+        console.log('this is a chunk \n');
+        console.log(chunk.toString());
+    });
 });
 
 server.listen(8080);
