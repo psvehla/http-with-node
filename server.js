@@ -12,7 +12,11 @@ server.on('request', (req, res) => {
         console.log(req.headers);
     };
     jsonBody(req, res, (err, body) => {
-        console.log(body);
+        if (err) {
+            console.error(err);
+        } else {
+            services.createUser(body['userName']);
+        }
     });
 });
 
