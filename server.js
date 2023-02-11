@@ -1,6 +1,7 @@
 const http = require('http');
 const url = require('url');
 const services = require('./services');
+const jsonBody = require('body/json');
 
 const server = http.createServer();
 server.on('request', (req, res) => {
@@ -10,14 +11,8 @@ server.on('request', (req, res) => {
         const metadata = services.fetchImageMetadata(id);
         console.log(req.headers);
     };
-    const body = [];
-    req.on('data', (chunk) => {
-        body.push(chunk);
-    }).on('end', () => {
-        const parsedJSON = JSON.parse(Buffer.concat(body));
-        const userName = parsedJSON[0]['userName'];
-        console.log(userName);
-        services.createUser(userName);
+    jsonBody(req, res, (err, body) => {
+        console.log(body);
     });
 });
 
