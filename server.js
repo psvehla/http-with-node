@@ -14,7 +14,11 @@ server.on('request', (req, res) => {
     if (req.method === 'GET' && parsedUrl.pathname === '/metadata') {
         const { id } = parsedUrl.query;
         const metadata = services.fetchImageMetadata(id);
-        console.log(req.headers);
+        res.setHeader('Content-Type', 'application/json');
+        res.statusCode = 200;
+        const serializedMetadata = JSON.stringify(metadata);
+        res.write(serializedMetadata);
+        res.end();
     } else if (req.method === 'GET' && parsedUrl.pathname === '/users') {
         jsonBody(req, res, (err, body) => {
             if (err) {
@@ -24,7 +28,9 @@ server.on('request', (req, res) => {
             }    
         });
     } else {
-        res.writeHead(404, {'Content-Type': 'application/json'});
+        res.writeHead(404, {
+            'X-Powered-By': 'Node'
+        });
         res.end('This was served with https.');
     }
 });
