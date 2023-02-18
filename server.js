@@ -24,9 +24,7 @@ server.on('request', (req, res) => {
             }    
         });
     } else {
-        res.statusCode = 404;
-        res.setHeader('X-Powered-By', 'Node');
-        res.setHeader('Hello', 'World');
+        res.writeHead(404, {'Content-Type': 'application/json'});
         res.end('This was served with https.');
     }
 });
