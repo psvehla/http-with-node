@@ -11,6 +11,15 @@ const server = https.createServer({
 
 server.on('request', (req, res) => {
     const parsedUrl = url.parse(req.url, true);
+
+    req.on('error', (err) => {
+        console.error('request error: ', err);
+    });
+
+    res.on('error', (err) => {
+        console.error('response error: ', err);
+    });
+
     if (req.method === 'GET' && parsedUrl.pathname === '/metadata') {
         const { id } = parsedUrl.query;
         const metadata = services.fetchImageMetadata(id);
@@ -19,6 +28,7 @@ server.on('request', (req, res) => {
         const serializedMetadata = JSON.stringify(metadata);
         res.write(serializedMetadata);
         res.end();
+        console.log('.');
     } else if (req.method === 'GET' && parsedUrl.pathname === '/users') {
         jsonBody(req, res, (err, body) => {
             if (err) {
